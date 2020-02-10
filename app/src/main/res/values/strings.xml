@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ClickCounter</string>
+    <string name="textView">Нажми на кнопку</string>
+    <string name="button">+1</string>
+</resources>
