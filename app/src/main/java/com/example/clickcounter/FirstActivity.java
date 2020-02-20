@@ -16,29 +16,50 @@ import android.widget.TextView;
 
 
 public class FirstActivity extends AppCompatActivity {
-    TextView countTextView;
-    ImageButton addButton;
-    SharedPreferences sPref;
-    Intent intent;
-    Toolbar toolbar;
+    private TextView countTextView;
+    private ImageButton addButton;
+    private SharedPreferences sPref;
+    private Intent secondActivityIntent;
     boolean flagImageButton = true;
+    private String countString;
     private int count = 0;
-    final String SAVED_TEXT = "saved_text";
+    private static final String SAVED_TEXT = "saved_text";
+    public static final String KEY_COUNT = "count";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_first);
         countTextView = findViewById(R.id.countTextView);
         addButton = findViewById(R.id.addButton);
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        intent = new Intent(this, SecondActivity.class);
+        countString = String.valueOf(count);
+        secondActivityIntent = new Intent(this, SecondActivity.class);
         if (savedInstanceState != null) {
-            count = savedInstanceState.getInt("count", 0);
+            count = savedInstanceState.getInt(KEY_COUNT, 0);
         }
-        countTextView.setText(Integer.toString(count));
+        countTextView.setText(countString);
         loadText();
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                count++;
+                countString = String.valueOf(count);
+                countTextView.setText(countString);
+                if (flagImageButton) {
+                    addButton.setImageResource(R.drawable.cookie_two);
+                    flagImageButton = !flagImageButton;
+                } else {
+                    addButton.setImageResource(R.drawable.cookie_one);
+                    flagImageButton = !flagImageButton;
+                }
+                Animation anim;
+                anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_image_button);
+                addButton.startAnimation(anim);
+            }
+        });
     }
 
     @Override
@@ -50,16 +71,17 @@ public class FirstActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if(item.getItemId() == R.id.next_activity) {
-            intent.putExtra("count", countTextView.getText().toString());
-            startActivity(intent);
+            secondActivityIntent.putExtra(KEY_COUNT, countTextView.getText().toString());
+            startActivity(secondActivityIntent);
         }
         return true;
     }
 
 
-    public void addOne(View view) {
+   /* public void addOne(View view) {
         count++;
-        countTextView.setText(Integer.toString(count));
+        countString = String.valueOf(count);
+        countTextView.setText(countString);
         if (flagImageButton) {
             addButton.setImageResource(R.drawable.cookie_two);
             flagImageButton = !flagImageButton;
@@ -67,10 +89,10 @@ public class FirstActivity extends AppCompatActivity {
             addButton.setImageResource(R.drawable.cookie_one);
             flagImageButton = !flagImageButton;
         }
-        Animation anim = null;
+        Animation anim;
         anim = AnimationUtils.loadAnimation(this, R.anim.anim_image_button);
         addButton.startAnimation(anim);
-    }
+    }*/
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {

@@ -3,9 +3,9 @@ package com.example.clickcounter;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import static com.example.clickcounter.FirstActivity.KEY_COUNT;
 
 public class SecondActivity extends AppCompatActivity {
 
@@ -15,7 +15,7 @@ public class SecondActivity extends AppCompatActivity {
         setContentView(R.layout.activity_second);
         TextView countBigTextView = findViewById(R.id.countBigTextView);
         Intent intent = getIntent();
-        String count = intent.getStringExtra("count");
+        String count = intent.getStringExtra(KEY_COUNT);
         countBigTextView.setText(count);
     }
 }
