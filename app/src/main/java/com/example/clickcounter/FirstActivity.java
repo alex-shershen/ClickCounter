@@ -58,6 +58,7 @@ public class FirstActivity extends AppCompatActivity {
                 Animation anim;
                 anim = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.anim_image_button);
                 addButton.startAnimation(anim);
+                saveText();
             }
         });
     }
@@ -76,23 +77,6 @@ public class FirstActivity extends AppCompatActivity {
         }
         return true;
     }
-
-
-   /* public void addOne(View view) {
-        count++;
-        countString = String.valueOf(count);
-        countTextView.setText(countString);
-        if (flagImageButton) {
-            addButton.setImageResource(R.drawable.cookie_two);
-            flagImageButton = !flagImageButton;
-        } else {
-            addButton.setImageResource(R.drawable.cookie_one);
-            flagImageButton = !flagImageButton;
-        }
-        Animation anim;
-        anim = AnimationUtils.loadAnimation(this, R.anim.anim_image_button);
-        addButton.startAnimation(anim);
-    }*/
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
@@ -114,7 +98,7 @@ public class FirstActivity extends AppCompatActivity {
 
     void loadText() {
         sPref = getPreferences(MODE_PRIVATE);
-        String savedText = sPref.getString(SAVED_TEXT, "");
+        String savedText = sPref.getString(SAVED_TEXT, "0");
         count = Integer.parseInt(savedText);
         countTextView.setText(savedText);
     }
